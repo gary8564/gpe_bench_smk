@@ -1,8 +1,8 @@
 {
   "name": "PCA-RGaSP",
-  "rmse": 3.321796587609466,
-  "coverage_prob": 0.6,
-  "quantile_coverage_error": 0.35,
-  "train_time": 263.5636899471283,
-  "infer_time": 0.1261281967163086
+  "rmse": 2.728327757740542,
+  "coverage_prob": 0.7333333333333333,
+  "quantile_coverage_error": 0.21666666666666667,
+  "train_time": 347.0640060901642,
+  "infer_time": 0.10149502754211426
 }

@@ -1,1 +1,1 @@
-{"name":"RGaSP","rmse":1.454522,"coverage_prob":0.826667,"quantile_coverage_error":0.123333,"train_time":328.848922,"infer_time":0.10355}
+{"name":"RGaSP","rmse":1.434978,"coverage_prob":0.853333,"quantile_coverage_error":0.096667,"train_time":455.863245,"infer_time":0.067027}

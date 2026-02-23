@@ -1,6 +1,9 @@
+# Slurm configuration for the pipeline
+# https://snakemake.readthedocs.io/en/v7.19.1/executing/cluster.html
 executor: slurm
 use-conda: true
-jobs: 100
+jobs: 32
+# Default resources for the pipeline
 default-resources:
   slurm_partition: default
   mem_mb: 8000

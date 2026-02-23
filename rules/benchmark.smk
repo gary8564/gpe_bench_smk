@@ -1,14 +1,10 @@
-"""
-Benchmark metrics – compare all evaluated models
-"""
-
 rule benchmark_metrics:
     input:
         results=[f"{WORKDIR}/results_{model}" for model in MODELS],
     output:
         directory(f"{WORKDIR}/benchmark_results"),
     conda:
-        "../envs/benchmark_metrics.yml"
+        conda_env("benchmark_metrics")
     params:
         script=f"{SCRIPTS}/benchmark_metrics.py",
         src_dir=SRC_DIR,

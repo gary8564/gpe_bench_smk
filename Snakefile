@@ -1,7 +1,9 @@
 configfile: "config.yaml"
 
 
-include: "rules/common.smk"
+include: "rules/config.smk"
+include: "rules/utils.smk"
+include: "rules/data_fetching.smk"
 
 
 rule all:
