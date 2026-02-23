@@ -1,0 +1,13 @@
+name: nf_evaluate_kpca_ppgasp
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - h5py
+  - scikit-learn
+  - matplotlib
+  - seaborn
+  - rpy2<3.6.0
+  - rasterio
+  - psimpy

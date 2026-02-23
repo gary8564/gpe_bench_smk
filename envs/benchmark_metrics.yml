@@ -1,0 +1,11 @@
+name: nf_benchmark_metrics
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - matplotlib
+  - seaborn
+  - rasterio
+  - h5py

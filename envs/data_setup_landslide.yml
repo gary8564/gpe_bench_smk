@@ -1,0 +1,7 @@
+name: nf_data_setup_landslide
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - rasterio

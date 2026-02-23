@@ -1,0 +1,19 @@
+name: nf_evaluate_ae_ppgasp
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pytorch
+  - pytorch-cuda=12.4
+  - numpy<2.0
+  - h5py
+  - gpytorch
+  - tqdm
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - rpy2<3.6.0
+  - rasterio
+  - psimpy

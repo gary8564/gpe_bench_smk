@@ -1,0 +1,8 @@
+{
+  "name": "ExactGP",
+  "rmse": 1.4579973220825195,
+  "coverage_prob": 0.9866666666666667,
+  "quantile_coverage_error": 0.036666666666666736,
+  "train_time": 8.322149276733398,
+  "infer_time": 0.022562026977539062
+}

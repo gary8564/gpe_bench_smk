@@ -1,0 +1,70 @@
+outdir: results
+use_gpu: false
+
+case_study:
+  name: synthetic_100d_function
+  problem_type: high_dim_input
+  # The following params are used by problem type "high_dim_output" only
+  # qoi: cmax                       # quantity of interest: hmax, vmax or cmax
+  # preprocessing:
+  #   threshold: 5e-06              # zero-truncation threshold for outputs
+  # dim_reduction:
+  #   n_components: 10              # PCA/kPCA components
+  #   latent_dim: 10                # AE/VAE latent dimension
+
+datasets:
+  acheron:
+    source: "figshare, github"
+    description: "Acheron rock avalanche: emulator inputs from GitHub, simulator outputs from Figshare"
+    figshare:
+      articles:
+        - id: "20449410"
+          dest: "train/output"
+        - id: "20454936"
+          dest: "test/output"
+    github:
+      files:
+        - url: "https://github.com/yildizanil/frontiers_yildizetal/blob/main/src/frontiers_yildizetal/files/raster/hillshade_acheron.tif"
+          dest: "background"
+        - url: "https://github.com/yildizanil/frontiers_yildizetal/blob/main/src/frontiers_yildizetal/utilities/input/acheron_emulator.csv"
+          dest: "train/input"
+        - url: "https://github.com/yildizanil/frontiers_yildizetal/blob/main/src/frontiers_yildizetal/utilities/input/acheron_validation_emulator.csv"
+          dest: "test/input"
+
+  synthetic_landslide:
+    source: "figshare, github"
+    description: "Synthetic landslide: emulator inputs from GitHub, simulator outputs from Figshare"
+    figshare:
+      articles:
+        - id: "20449395"
+          dest: "train/output"
+        - id: "20454933"
+          dest: "test/output"
+    github:
+      files:
+        - url: "https://github.com/yildizanil/frontiers_yildizetal/blob/main/src/frontiers_yildizetal/utilities/input/synth_emulator.csv"
+          dest: "train/input"
+        - url: "https://github.com/yildizanil/frontiers_yildizetal/blob/main/src/frontiers_yildizetal/utilities/input/synth_validation_emulator.csv"
+          dest: "test/input"
+
+  environment_spill_function:
+    source: ""
+    description: "Synthetic high-dimensional output toy example: environment spill model"
+    parameters:
+      n_samples: 250
+
+  synthetic_100d_function:
+    source: ""
+    description: "Synthetic high-dimensional input toy example: 100D function"
+    parameters:
+      n_samples: 500
+
+  tsunami_tokushima:
+    source: "zenodo"
+    description: "Neural network-based surrogate model for tsunami inundation assessment"
+    doi: "10.5281/zenodo.15093228"
+    base_url: "https://zenodo.org/records/15093228"
+    files:
+      - "Initial_water_level_distibutions.zip"
+      - "tsunami_water_level_disributions.zip"
+      - "Inundation_distibutions.zip"

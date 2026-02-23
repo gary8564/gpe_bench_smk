@@ -1,0 +1,17 @@
+name: nf_evaluate_exactgp_cuda
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pytorch
+  - numpy<2.0
+  - h5py
+  - pytorch-cuda=12.4
+  - gpytorch
+  - tqdm
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - rasterio

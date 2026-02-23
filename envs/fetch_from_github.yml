@@ -1,0 +1,7 @@
+name: nf_fetch_from_github
+channels:
+  - conda-forge
+dependencies:
+  - bash
+  - curl
+  - unzip

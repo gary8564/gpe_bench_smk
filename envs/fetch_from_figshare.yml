@@ -1,0 +1,8 @@
+name: nf_fetch_from_figshare
+channels:
+  - conda-forge
+dependencies:
+  - bash
+  - curl
+  - jq
+  - unzip

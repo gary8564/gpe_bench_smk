@@ -1,0 +1,22 @@
+name: nf_evaluate_pca_rgasp
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - r-base
+  - r-essentials
+  - r-robustgasp
+  - r-hdf5r
+  - r-jsonlite
+  - r-optparse
+  - r-argparse
+  - rpy2<3.6.0
+  - numpy
+  - h5py
+  - gpytorch
+  - tqdm
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - rasterio
+  - psimpy

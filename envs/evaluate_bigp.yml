@@ -1,0 +1,15 @@
+name: nf_evaluate_bigp
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pytorch
+  - numpy<2.0
+  - h5py
+  - gpytorch
+  - tqdm
+  - matplotlib
+  - seaborn
+  - scikit-learn
+  - rasterio
