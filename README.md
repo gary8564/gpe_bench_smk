@@ -81,11 +81,11 @@ The pipeline follows a 4-step workflow:
 
 ## Prerequisites
 
-1. **Conda Environment Manager**
-   - [conda](https://www.anaconda.com/docs/getting-started/miniconda/install) or
-   - [micromamba](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
+1. **Conda Environment Manager**:
+   - [**conda**](https://www.anaconda.com/docs/getting-started/miniconda/install) or [**micromamba**](https://mamba.readthedocs.io/en/latest/installation/micromamba-installation.html)
+   - [**conda-lock**](https://conda.github.io/conda-lock/getting_started/#__tabbed_1_2)
 
-2. **Snakemake** (>= 8.0)
+2. [**Snakemake**](https://snakemake.readthedocs.io/en/stable/getting_started/installation.html) (>= 8.0)
 
    ```bash
    conda install -c conda-forge -c bioconda snakemake
@@ -97,10 +97,18 @@ The pipeline follows a 4-step workflow:
    pip install snakemake
    ```
 
-3. **SLURM executor plugin** (only needed for cluster execution)
-   ```bash
-   pip install snakemake-executor-plugin-slurm
-   ```
+> [!NOTE]
+> If SLURM cluster execution is needed, follows the additional installation of [**SLURM executor plugin**]():
+>
+> ```bash
+>    mamba install -c conda-forge -c bioconda snakemake-executor-plugin-slurm
+> ```
+>
+> Or with pip:
+>
+> ```bash
+> pip install snakemake-executor-plugin-slurm
+> ```
 
 ## Quick Start
 

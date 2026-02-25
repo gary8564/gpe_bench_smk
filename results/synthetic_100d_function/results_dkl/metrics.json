@@ -1,8 +1,0 @@
-{
-  "name": "DKL",
-  "rmse": 2.718602418899536,
-  "coverage_prob": 0.84,
-  "quantile_coverage_error": 0.10999999999999999,
-  "train_time": 47.63477301597595,
-  "infer_time": 0.16746091842651367
-}
