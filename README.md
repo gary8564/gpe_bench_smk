@@ -71,7 +71,7 @@ The pipeline follows a 4-step workflow:
 1. Clone repository:
 
    ```bash
-   git clone https://github.com/gary8564/snakemake_demo.git
+   git clone https://github.com/gary8564/gpe_bench_smk.git
    cd snakemake_demo
    ```
 
