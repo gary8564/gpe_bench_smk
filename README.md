@@ -209,6 +209,8 @@ This workflow demonstrates **programming language agnosticism** in scientific co
 
 ## Comparison between Nextflow and Snakemake
 
+Same benchmark example is used in [gpe_bench_nxf](https://github.com/gary8564/gpe_bench_nxf) repo to demonstrate and compare how snakemake and nextflow work.
+
 | Aspect             | Nextflow                              | Snakemake                                                                       |
 | ------------------ | ------------------------------------- | ------------------------------------------------------------------------------- |
 | Workflow language  | Groovy DSL                            | Python-based                                                                    |
