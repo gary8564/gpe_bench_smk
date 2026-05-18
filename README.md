@@ -1,6 +1,6 @@
 # Evaluation Pipeline for Gaussian Process Emulators with High-dimensional Dataset
 
-Gaussian Processes (GPs) are suffering from the "curse of the dimensionality". As input or output dimension grows up, the computation becomes intractable. This project aims to explore the state-of-the-art research of dimensionality reduction in Gaussian Process emulation. In this repository, a workflow using **Nextflow** (a orchestrated workflow management framework)  is constructed to facilitate benchmarking different Gaussian Process models on high-dimensional input/output problems with minimal efforts. 
+Gaussian Processes (GPs) are suffering from the "curse of the dimensionality". As input or output dimension grows up, the computation becomes intractable. This project aims to explore the state-of-the-art research of dimensionality reduction in Gaussian Process emulation. In this repository, a workflow using **Snakemake** (a orchestrated workflow management framework)  is constructed to facilitate benchmarking different Gaussian Process models on high-dimensional input/output problems with minimal efforts. 
 
 ## Workflow
 
