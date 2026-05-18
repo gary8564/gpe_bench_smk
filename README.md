@@ -80,16 +80,6 @@ The pipeline follows a 4-step workflow:
    snakemake --profile profiles/local
    ```
 
->[!NOTE] Tips: some useful built-in command options for snakemake:
-```bash
-snakemake --profile profiles/local -n  # Preview the execution plan without running anything
-snakemake --profile profiles/local --dag \| dot -Tpng > dag.png # Generate DAG image
-snakemake --profile profiles/local --forceall # Force re-run everything
-snakemake --profile profiles/local --until preprocessing # Run up to a specific rule |
-snakemake --profile profiles/local -R evaluate_exactgp # Re-run a specific rule |
-snakemake --profile profiles/local --summary # Show output file status |
-```
-
 ## Folder Structure
 
 ```
@@ -218,3 +208,7 @@ Same benchmark example is used in [gpe_bench_nxf](https://github.com/gary8564/gp
 | Config             | `.config`                             | `.yaml`                                                                         |
 | Modules            | `modules/*.nf` (one process per file) | `rules/high_dim_input/*.smk`, `rules/high_dim_output/*.smk` (one rule per file) |
 | Intermediate files | Hidden in `work/` directory           | Visible in output directory                                                     |
+
+## Reference
+1. [Snakemake](https://snakemake.readthedocs.io/en/stable/)
+2. [Nextflow](https://www.nextflow.io/)
