@@ -26,7 +26,7 @@ jobs:
 
       - name: Install conda-lock
         shell: bash -el {0}
-        run: mamba install -y conda-lock
+        run: conda install -y conda-lock
 
       # Add one conda-lock call per environment YAML.
       # --kind explicit produces a Snakemake-compatible pin file.
