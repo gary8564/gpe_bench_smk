@@ -1,12 +1,14 @@
 # Evaluation Pipeline for Gaussian Process Emulators with High-dimensional Dataset
 
-Gaussian Processes (GPs) are suffering from the "curse of the dimensionality". As input or output dimension grows up, the computation becomes intractable. This project aims to explore the state-of-the-art research of dimensionality reduction in Gaussian Process emulation. In this repository, a workflow using **Snakemake** (a orchestrated workflow management framework) is constructed to facilitate benchmarking different Gaussian Process models on high-dimensional input/output problems with minimal efforts.
+Gaussian Processes (GPs) are suffering from the "curse of the dimensionality". As input or output dimension grows up, the computation becomes intractable. This project aims to explore the state-of-the-art research of dimensionality reduction in Gaussian Process emulation. In this repository, a workflow using **Nextflow** (a orchestrated workflow management framework)  is constructed to facilitate benchmarking different Gaussian Process models on high-dimensional input/output problems with minimal efforts. 
 
 ## Workflow
 
+![workflow](img/workflow.png)
+
 The pipeline follows a 4-step workflow:
 
-1. **Data Setup**: Generate synthetic data or fetch and process real-world data
+1. **Data Setup**: Generate synthetic data or fetch and process real-world data using specialized modules
 2. **Preprocessing**: Standardize, split, and save data in **HDF5 format** (language-agnostic)
 3. **Model Evaluation**: Train and evaluate **GP models in parallel**:
 
@@ -20,64 +22,18 @@ The pipeline follows a 4-step workflow:
    - PPGaSP, PCA-PPGaSP, kPCA-PPGaSP (R/RobustGaSP)
    - AE-PPGaSP, VAE-PPGaSP (PyTorch + R/RobustGaSP)
    - BiGP, PCA-BiGP, MTGP (Python/GPyTorch)
-
+   
 4. **Benchmark Metrics**: Compare model performance and save results
 
 ## Datasets
 
-| Name                         | Type              | Problem         | Description                                                                     |
+| Name                         | Source              | Problem         | Description                                                                     |
 | ---------------------------- | ----------------- | --------------- | ------------------------------------------------------------------------------- |
-| `synthetic_100d_function`    | Synthetic         | High-dim input  | 100D synthetic test function                                                    |
-| `tsunami_tokushima`          | Zenodo            | High-dim input  | Tsunami inundation surrogate model ([DOI](https://zenodo.org/records/15093228)) |
-| `environment_spill_function` | Synthetic         | High-dim output | Environment spill toy model                                                     |
-| `acheron`                    | Figshare + GitHub | High-dim output | Acheron rock avalanche                                                          |
-| `synthetic_landslide`        | Figshare + GitHub | High-dim output | Synthetic landslide simulation                                                  |
-
-## Folder Structure
-
-```
-.
-├── Snakefile                    # Main workflow orchestration
-├── config.yaml                  # All configurable parameters
-├── pyproject.toml               # Python package definition (src/high_dim_gp)
-├── rules/                       # Modular Snakemake rules
-│   ├── config.smk               # Shared config variables, paths, model selection
-│   ├── utils.smk                # Reusable helpers (conda_env, gpu_env, device_flag, etc.)
-│   ├── data_fetching.smk        # Data fetch command generators (Zenodo/Figshare/GitHub)
-│   ├── benchmark.smk            # Performance comparison and reporting
-│   ├── high_dim_input.smk       # Hub: includes all high-dim input step files
-│   ├── high_dim_input/          # Per-step rules
-│   │   ├── data_setup.smk
-│   │   ├── preprocessing.smk
-│   │   ├── evaluate_exactgp.smk
-│   │   ├── evaluate_dkl.smk
-│   │   ├── evaluate_rgasp.smk
-│   │   └── evaluate_pca_rgasp.smk
-│   ├── high_dim_output.smk      # Hub: includes all high-dim output step files
-│   └── high_dim_output/         # Per-step rules
-│       ├── config.smk           # Problem-type-specific params (threshold, qoi, n_components)
-│       ├── data_setup.smk
-│       ├── preprocessing.smk
-│       ├── evaluate_ppgasp.smk
-│       ├── evaluate_bigp.smk
-│       ├── evaluate_mtgp.smk
-│       ├── evaluate_pca_bigp.smk
-│       ├── evaluate_pca_ppgasp.smk
-│       ├── evaluate_kpca_ppgasp.smk
-│       ├── evaluate_ae_ppgasp.smk
-│       └── evaluate_vae_ppgasp.smk
-├── envs/                        # Per-rule Conda environment specifications
-├── scripts/                     # Implementation scripts (Python & R)
-│   ├── benchmark_metrics.py
-│   ├── high_dim_input/
-│   └── high_dim_output/
-├── src/                         # Shared Python package (high_dim_gp)
-│   └── high_dim_gp/
-├── profiles/                    # Snakemake execution profiles
-│   ├── local/config.yaml
-│   └── slurm/config.yaml
-└── results/                     # Pipeline outputs (auto-generated)
-```
+| `synthetic_100d_function`    | Generated by 100D function | High-dim input  | [100D synthetic test function](https://uqworld.org/t/benchmark-case-100d-function/3732)                                                  |
+| `tsunami_tokushima`          | Zenodo            | High-dim input  | [Tsunami inundation surrogate model](https://zenodo.org/records/15093228) |
+| `environment_spill_function` | Generated by Environment spill function | High-dim output | [Environmental model function](https://www.sfu.ca/~ssurjano/environ.html)                                                    |
+| `acheron`                    | [Figshare](https://figshare.com/articles/dataset/Acheron_rock_avalanche/20449410) + [GitHub](https://github.com/yildizanil/frontiers_yildizetal/tree/main) | High-dim output | [Acheron rock avalanche](https://www.frontiersin.org/journals/earth-science/articles/10.3389/feart.2022.1032438/full)                                                         |
+| `synthetic_landslide`        | [Figshare](https://figshare.com/articles/dataset/Synthetic_case_-_Point_estimate_method/20454924) + [GitHub](https://github.com/yildizanil/frontiers_yildizetal/tree/main) | High-dim output | [Synthetic landslide simulation](https://www.frontiersin.org/journals/earth-science/articles/10.3389/feart.2022.1032438/full)                                                  |
 
 ## Prerequisites
 
@@ -124,6 +80,44 @@ The pipeline follows a 4-step workflow:
    snakemake --profile profiles/local
    ```
 
+>[!NOTE] Tips: some useful built-in command options for snakemake:
+```bash
+snakemake --profile profiles/local -n  # Preview the execution plan without running anything
+snakemake --profile profiles/local --dag \| dot -Tpng > dag.png # Generate DAG image
+snakemake --profile profiles/local --forceall # Force re-run everything
+snakemake --profile profiles/local --until preprocessing # Run up to a specific rule |
+snakemake --profile profiles/local -R evaluate_exactgp # Re-run a specific rule |
+snakemake --profile profiles/local --summary # Show output file status |
+```
+
+## Folder Structure
+
+```
+.
+├── Snakefile                    # Main workflow orchestration
+├── config.yaml                  # All configurable parameters
+├── pyproject.toml               # Python package definition (src/high_dim_gp)
+├── rules/                       # Modular Snakemake rules
+│   ├── config.smk               # Shared config variables, paths, model selection
+│   ├── utils.smk                # Reusable helpers (conda_env, gpu_env, device_flag, etc.)
+│   ├── data_fetching.smk        # Data fetch command generators (Zenodo/Figshare/GitHub)
+│   ├── benchmark.smk            # Performance comparison and reporting
+│   ├── high_dim_input.smk       # Hub: includes all high-dim input step files
+│   ├── high_dim_input/          # Per-step rules
+│   ├── high_dim_output.smk      # Hub: includes all high-dim output step files
+│   └── high_dim_output/         # Per-step rules
+├── envs/                        # Per-rule Conda environment specifications
+├── scripts/                     # Implementation scripts (Python & R)
+│   ├── benchmark_metrics.py
+│   ├── high_dim_input/
+│   └── high_dim_output/
+├── src/                         # Shared Python package (high_dim_gp)
+│   └── high_dim_gp/
+├── profiles/                    # Snakemake execution profiles
+│   ├── local/config.yaml
+│   └── slurm/config.yaml
+```
+
 ## Usage
 
 ### Configuration
@@ -152,13 +146,24 @@ case_study:
     latent_dim: 10 # AE/VAE latent dimension
 ```
 
-### Override Config via Command Line
-
-Snakemake allows overriding config values at the command line:
+Optionally, snakemake allows overriding config values at the command line:
 
 ```bash
 snakemake --profile profiles/local \
   --config case_study="{'name': 'tsunami_tokushima', 'problem_type': 'high_dim_input'}"
+```
+
+If you want to extend to use your own datasets, extend the `datasets` section in `config.yaml`:
+```yaml
+datasets:
+  my_new_study:
+    source: "zenodo"
+    description: "Description of your dataset"
+    doi: "10.5281/zenodo.XXXXXXX"
+    base_url: "https://zenodo.org/records/XXXXXXX"
+    files:
+      - "data_file1.csv"
+      - "data_file2.zip"
 ```
 
 ### GPU Acceleration
@@ -172,41 +177,7 @@ environments for GPU-capable models (ExactGP, DKL, BiGP, MTGP, AE/VAE-PPGaSP).
 snakemake --profile profiles/slurm
 ```
 
-### Custom Datasets
-
-Extend the `datasets` section in `config.yaml`:
-
-```yaml
-datasets:
-  my_new_study:
-    source: "zenodo"
-    description: "Description of your dataset"
-    doi: "10.5281/zenodo.XXXXXXX"
-    base_url: "https://zenodo.org/records/XXXXXXX"
-    files:
-      - "data_file1.csv"
-      - "data_file2.zip"
-```
-
-### Dry Run
-
-Preview the execution plan without running anything:
-
-```bash
-snakemake --profile profiles/local -n
-```
-
-### Command options
-
-```bash
-snakemake --profile profiles/local --dag \| dot -Tpng > dag.png # Generate DAG image
-snakemake --profile profiles/local --forceall # Force re-run everything
-snakemake --profile profiles/local --until preprocessing # Run up to a specific rule |
-snakemake --profile profiles/local -R evaluate_exactgp # Re-run a specific rule |
-snakemake --profile profiles/local --summary # Show output file status |
-```
-
-## Built-in Benchmarking
+## Snakemake Built-in Benchmarking Features
 
 Each model evaluation rule uses Snakemake's [`benchmark`](https://snakemake.readthedocs.io/en/stable/tutorial/additional_features.html#benchmarking)
 directive to automatically capture wall clock time, CPU time, and peak memory
@@ -223,6 +194,18 @@ results/<case_study>/benchmarks/
 ├── evaluate_mtgp.tsv
 ├── ...
 ```
+
+## Advantage of using Nextflow:
+
+### 1. Language-Agnostic Design
+
+This workflow demonstrates **programming language agnosticism** in scientific computing pipelines by using **HDF5** as cross-language scientific data format so that the data can flow through different stages which might use different OS platform / programming languages / container images.
+
+### 2. CI-managed Reproducible Environments
+
+- **Per-process environment isolation:** Each Nextflow process can define its own Conda environment in `envs/`, allowing Python/GPyTorch, R/RobustGaSP, and other model-specific dependencies to remain isolated while still being orchestrated in one benchmark pipeline. This follows the SHOWME.how isolation principle: every computational unit should carry an explicit environment specification rather than relying on a manually configured local setup.
+
+- **Automatic `conda-lock` generation in CI:** To make the environments reproducible across local machines, CI runners, and SLURM/HPC execution, the pipeline can automatically regenerate [`conda-lock`](https://conda.github.io/conda-lock/) files whenever an `environment.yml` file changes. These lock files pin the fully resolved dependency graph for the target platform, reducing dependency drift and shifting environment maintenance from individual collaborators to a single CI workflow.
 
 ## Comparison between Nextflow and Snakemake
 
