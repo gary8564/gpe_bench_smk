@@ -1,0 +1,65 @@
+# .github/workflows/main.yml
+#
+# Validates the Snakemake workflow on every push/PR using the
+# self-contained high_dim_input toy example.
+#
+# Two jobs:
+#   lint   — checks Snakefile syntax (fast, no environments needed)
+#   run    — builds the pinned conda environments and runs the
+#            CPU-only benchmark on the toy case study
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint Snakemake workflow
+        uses: snakemake/snakemake-github-action@v2
+        with:
+          directory: "."
+          snakefile: "workflow/Snakefile"
+          args: "--lint"
+
+  run:
+    runs-on: ubuntu-latest
+    needs: lint
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Run the full high_dim_input toy benchmark (CPU-only).
+      # --sdm conda tells Snakemake to create environments; it will
+      # automatically prefer the adjacent *.linux-64.pin.txt files if present.
+      # --config use_gpu=false skips the CUDA variant of evaluate_exactgp.
+      #
+      # NOTE: adjust case_study and the target rule name if your Snakefile
+      # uses different parameter names.
+      - name: Run toy benchmark
+        uses: snakemake/snakemake-github-action@v2
+        with:
+          directory: "."
+          snakefile: "workflow/Snakefile"
+          args: >-
+            --cores 2
+            --sdm conda
+            --conda-cleanup-pkgs cache
+            --configfile config/config.yaml
+            --config case_study=high_dim_input use_gpu=false
+          show-disk-usage-on-error: true
+
+      - name: Upload results as artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: results/
+          if-no-files-found: warn
