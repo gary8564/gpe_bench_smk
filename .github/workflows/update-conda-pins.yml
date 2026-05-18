@@ -34,10 +34,15 @@ jobs:
       - name: Generate pin files
         shell: bash -el {0}
         run: |
+          # Clear conda package cache to force fresh downloads
+          conda clean --all -y
+          
           conda-lock -f envs/evaluate_rgasp.yml        -p linux-64 --kind explicit --filename-template "envs/evaluate_rgasp.{platform}.pin.txt"
           conda-lock -f envs/evaluate_exactgp.yml      -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp.{platform}.pin.txt"
           conda-lock -f envs/evaluate_exactgp_cuda.yml  -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp_cuda.{platform}.pin.txt"
-          # Add more envs here as needed
+          conda-lock -f envs/evaluate_pca_rgasp.yml   -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp_cuda.{platform}.pin.txt"
+          conda-lock -f envs/evaluate_dkl.yml   -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp_cuda.{platform}.pin.txt"
+          conda-lock -f envs/evaluate_dkl_cuda.yml   -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp_cuda.{platform}.pin.txt"
 
       - name: Commit and push updated pin files
         run: |
