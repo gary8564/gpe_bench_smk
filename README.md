@@ -210,5 +210,5 @@ Same benchmark example is used in [gpe_bench_nxf](https://github.com/gary8564/gp
 | Intermediate files | Hidden in `work/` directory           | Visible in output directory                                                     |
 
 ## Reference
-1. [Snakemake](https://snakemake.readthedocs.io/en/stable/)
-2. [Nextflow](https://www.nextflow.io/)
+1. Mölder F, Jablonski KP, Letcher B et al. Sustainable data analysis with Snakemake [version 1; peer review: 1 approved, 1 approved with reservations]. F1000Research 2021, 10:33 (https://doi.org/10.12688/f1000research.29032.1)
+2. Henri E. Bal, Jennifer G. Steiner, and Andrew S. Tanenbaum. 1989. Programming languages for distributed computing systems. ACM Comput. Surv. 21, 3 (Sep. 1989), 261–322. https://doi.org/10.1145/72551.72552
