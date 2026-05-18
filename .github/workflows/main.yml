@@ -17,21 +17,21 @@ on:
 
 jobs:
 
-  lint:
+  dry-run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Lint Snakemake workflow
+      - name: Dry-run Snakemake workflow
         uses: snakemake/snakemake-github-action@v2
         with:
           directory: "."
           snakefile: "Snakefile"
-          args: "--lint"
+          args: -n
 
   run:
     runs-on: ubuntu-latest
-    needs: lint
+    needs: dry-run
 
     steps:
       - uses: actions/checkout@v4
