@@ -195,7 +195,7 @@ results/<case_study>/benchmarks/
 ├── ...
 ```
 
-## Advantage of using Nextflow:
+## Advantage of using Snakemake:
 
 ### 1. Language-Agnostic Design
 
@@ -203,7 +203,7 @@ This workflow demonstrates **programming language agnosticism** in scientific co
 
 ### 2. CI-managed Reproducible Environments
 
-- **Per-process environment isolation:** Each Nextflow process can define its own Conda environment in `envs/`, allowing Python/GPyTorch, R/RobustGaSP, and other model-specific dependencies to remain isolated while still being orchestrated in one benchmark pipeline. This follows the SHOWME.how isolation principle: every computational unit should carry an explicit environment specification rather than relying on a manually configured local setup.
+- **Per-process environment isolation:** Each Snakemake process can define its own Conda environment in `envs/`, allowing Python/GPyTorch, R/RobustGaSP, and other model-specific dependencies to remain isolated while still being orchestrated in one benchmark pipeline. This follows the SHOWME.how isolation principle: every computational unit should carry an explicit environment specification rather than relying on a manually configured local setup.
 
 - **CI-generated lock/pin files:** The repository can use CI to regenerate platform-specific explicit Conda specifications whenever `envs/*.yml` changes. In Snakemake, these are stored as `envs/<name>.<platform>.pin.txt` beside the YAML files. This makes execution more reproducible.
 
