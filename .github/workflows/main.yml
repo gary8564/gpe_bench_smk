@@ -52,8 +52,8 @@ jobs:
             --cores 2
             --sdm conda
             --conda-cleanup-pkgs cache
-            --configfile config/config.yaml
-            --config case_study=high_dim_input use_gpu=false
+            --configfile config.yaml
+            --profile profiles/local
           show-disk-usage-on-error: true
 
       - name: Upload results as artifact
