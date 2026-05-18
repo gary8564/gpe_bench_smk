@@ -1,0 +1,48 @@
+# .github/workflows/update-conda-pins.yml
+
+name: Update Conda pin files
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "envs/*.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate-pins:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          auto-activate-base: true
+
+      - name: Install conda-lock
+        shell: bash -el {0}
+        run: mamba install -y conda-lock
+
+      # Add one conda-lock call per environment YAML.
+      # --kind explicit produces a Snakemake-compatible pin file.
+      # --filename-template places the output beside the source YAML.
+      - name: Generate pin files
+        shell: bash -el {0}
+        run: |
+          conda-lock -f envs/evaluate_rgasp.yml        -p linux-64 --kind explicit --filename-template "envs/evaluate_rgasp.{platform}.pin.txt"
+          conda-lock -f envs/evaluate_exactgp.yml      -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp.{platform}.pin.txt"
+          conda-lock -f envs/evaluate_exactgp_cuda.yml  -p linux-64 --kind explicit --filename-template "envs/evaluate_exactgp_cuda.{platform}.pin.txt"
+          # Add more envs here as needed
+
+      - name: Commit and push updated pin files
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add envs/*.pin.txt
+          git diff --staged --quiet || git commit -m "chore: update Snakemake conda pin files."
+          git push
